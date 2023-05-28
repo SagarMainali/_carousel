@@ -84,7 +84,7 @@
 
 <body>
      <div class="carousel-container">
-          <i class="fa-solid fa-chevron-left" onclick="slideChange(-1)"></i>
+          <i class="fa-solid fa-chevron-left" onclick="slideChange('left')"></i>
           <div class="image">
                <img src="https://source.unsplash.com/1600x900/?sunrise" alt="nature">
           </div>
@@ -94,31 +94,40 @@
           <div class="image">
                <img src="https://source.unsplash.com/1600x900/?nature" alt="nature">
           </div>
-          <i class="fa-solid fa-chevron-right" onclick="slideChange(1)"></i>
+          <i class="fa-solid fa-chevron-right" onclick="slideChange('right')"></i>
      </div>
 
      <script>
-          let indexAt = 0;
+          let slide = document.getElementsByClassName("image");
+
+          let indexAt = 0; //initial element to display
           showSlide(indexAt); //this function is executed only once at the beginning
 
           // function triggered upon button click
-          function slideChange(value) {
-               showSlide(indexAt += value); //slideIndex = slideIndex + n, this is imp because the indexAt value must be updated everytime the user clicks the button
+          function slideChange(direction) {
+               let toMove
+               if (direction === 'right') {
+                    toMove = 1
+               }
+               else {
+                    toMove = -1
+               }
+               indexAt += toMove //indexAt = indexAt + value, this is imp because the indexAt value must be updated everytime the user clicks the button
+               showSlide(indexAt);
           }
 
-          function showSlide(num) {
-               let slide = document.getElementsByClassName("image");
+          function showSlide(indexToShow) {
                let i;
                for (i = 0; i < slide.length; i++) {
                     slide[i].style.display = "none"; // hiding every images at first
                }
-               if (num >= slide.length) {
-                    indexAt = 0; // resetting the value of indexAt once it goes beyond the size of the array
+               if (indexToShow === slide.length) {
+                    indexAt = 0; // displaying the first element of an array if user slides right when last element is showing
                }
-               if (num < 0) {
-                    indexAt = slide.length - 1;
+               else if (indexToShow < 0) {
+                    indexAt = slide.length - 1 // displaying the last element of an array if user slides left when first element is showing
                }
-               slide[indexAt].style.display = "block"; // displaying only required image
+               slide[indexAt].style.display = "block"; // displaying only the required image
           }
      </script>
 
